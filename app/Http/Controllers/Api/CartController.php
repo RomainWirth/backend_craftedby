@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api;
 
-use App\Http\Requests\StoreThemeRequest;
-use App\Http\Requests\UpdateThemeRequest;
-use App\Models\Theme;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCartRequest;
+use App\Http\Requests\UpdateCartRequest;
+use App\Models\Cart;
 
-class ThemeController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ThemeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreThemeRequest $request)
+    public function store(StoreCartRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ThemeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Theme $theme)
+    public function show(Cart $cart)
     {
         //
     }
@@ -43,7 +44,7 @@ class ThemeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Theme $theme)
+    public function edit(Cart $cart)
     {
         //
     }
@@ -51,7 +52,7 @@ class ThemeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateThemeRequest $request, Theme $theme)
+    public function update(UpdateCartRequest $request, Cart $cart)
     {
         //
     }
@@ -59,7 +60,7 @@ class ThemeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Theme $theme)
+    public function destroy(Cart $cart)
     {
         //
     }

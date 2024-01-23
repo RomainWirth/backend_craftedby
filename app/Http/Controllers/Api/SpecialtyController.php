@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api;
 
-use App\Http\Requests\StoreReviewRequest;
-use App\Http\Requests\UpdateReviewRequest;
-use App\Models\Review;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSpecialtyRequest;
+use App\Http\Requests\UpdateSpecialtyRequest;
+use App\Models\Specialty;
 
-class ReviewController extends Controller
+class SpecialtyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReviewRequest $request)
+    public function store(StoreSpecialtyRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ReviewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Review $review)
+    public function show(Specialty $specialty)
     {
         //
     }
@@ -43,7 +44,7 @@ class ReviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Review $review)
+    public function edit(Specialty $specialty)
     {
         //
     }
@@ -51,7 +52,7 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReviewRequest $request, Review $review)
+    public function update(UpdateSpecialtyRequest $request, Specialty $specialty)
     {
         //
     }
@@ -59,7 +60,7 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Review $review)
+    public function destroy(Specialty $specialty)
     {
         //
     }

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api;
 
-use App\Http\Requests\StoreMaterialRequest;
-use App\Http\Requests\UpdateMaterialRequest;
-use App\Models\Material;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreThemeRequest;
+use App\Http\Requests\UpdateThemeRequest;
+use App\Models\Theme;
 
-class MaterialController extends Controller
+class ThemeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class MaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMaterialRequest $request)
+    public function store(StoreThemeRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Material $material)
+    public function show(Theme $theme)
     {
         //
     }
@@ -43,7 +44,7 @@ class MaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Material $material)
+    public function edit(Theme $theme)
     {
         //
     }
@@ -51,7 +52,7 @@ class MaterialController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMaterialRequest $request, Material $material)
+    public function update(UpdateThemeRequest $request, Theme $theme)
     {
         //
     }
@@ -59,7 +60,7 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Material $material)
+    public function destroy(Theme $theme)
     {
         //
     }

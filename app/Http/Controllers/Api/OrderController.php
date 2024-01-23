@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api;
 
-use App\Http\Requests\StoreSizeRequest;
-use App\Http\Requests\UpdateSizeRequest;
-use App\Models\Size;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Order;
 
-class SizeController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class SizeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSizeRequest $request)
+    public function store(StoreOrderRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class SizeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Size $size)
+    public function show(Order $order)
     {
         //
     }
@@ -43,7 +44,7 @@ class SizeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Size $size)
+    public function edit(Order $order)
     {
         //
     }
@@ -51,7 +52,7 @@ class SizeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSizeRequest $request, Size $size)
+    public function update(UpdateOrderRequest $request, Order $order)
     {
         //
     }
@@ -59,7 +60,7 @@ class SizeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Size $size)
+    public function destroy(Order $order)
     {
         //
     }

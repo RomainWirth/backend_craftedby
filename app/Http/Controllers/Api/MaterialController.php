@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api;
 
-use App\Http\Requests\StoreColorRequest;
-use App\Http\Requests\UpdateColorRequest;
-use App\Models\Color;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreMaterialRequest;
+use App\Http\Requests\UpdateMaterialRequest;
+use App\Models\Material;
 
-class ColorController extends Controller
+class MaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ColorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreColorRequest $request)
+    public function store(StoreMaterialRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ColorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Color $color)
+    public function show(Material $material)
     {
         //
     }
@@ -43,7 +44,7 @@ class ColorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Color $color)
+    public function edit(Material $material)
     {
         //
     }
@@ -51,7 +52,7 @@ class ColorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateColorRequest $request, Color $color)
+    public function update(UpdateMaterialRequest $request, Material $material)
     {
         //
     }
@@ -59,7 +60,7 @@ class ColorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Color $color)
+    public function destroy(Material $material)
     {
         //
     }

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api;
 
-use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
-use App\Models\Cart;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
+use App\Models\Item;
 
-class CartController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCartRequest $request)
+    public function store(StoreItemRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function show(Item $item)
     {
         //
     }
@@ -43,7 +44,7 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cart $cart)
+    public function edit(Item $item)
     {
         //
     }
@@ -51,7 +52,7 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCartRequest $request, Cart $cart)
+    public function update(UpdateItemRequest $request, Item $item)
     {
         //
     }
@@ -59,7 +60,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy(Item $item)
     {
         //
     }

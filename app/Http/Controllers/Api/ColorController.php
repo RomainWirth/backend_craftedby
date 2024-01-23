@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api;
 
-use App\Http\Requests\StoreArtisanRequest;
-use App\Http\Requests\UpdateArtisanRequest;
-use App\Models\Artisan;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreColorRequest;
+use App\Http\Requests\UpdateColorRequest;
+use App\Models\Color;
 
-class ArtisanController extends Controller
+class ColorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ArtisanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreArtisanRequest $request)
+    public function store(StoreColorRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ArtisanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Artisan $artisan)
+    public function show(Color $color)
     {
         //
     }
@@ -43,7 +44,7 @@ class ArtisanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Artisan $artisan)
+    public function edit(Color $color)
     {
         //
     }
@@ -51,7 +52,7 @@ class ArtisanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtisanRequest $request, Artisan $artisan)
+    public function update(UpdateColorRequest $request, Color $color)
     {
         //
     }
@@ -59,7 +60,7 @@ class ArtisanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artisan $artisan)
+    public function destroy(Color $color)
     {
         //
     }
