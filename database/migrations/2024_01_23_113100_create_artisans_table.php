@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('artisans', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->bigInteger('siret')->unique();
+            $table->text('about');
+            $table->text('craftingDescription');
+            $table->foreignUuid('theme_id')->references('id')->on('themes');
+            $table->foreignUuid('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
