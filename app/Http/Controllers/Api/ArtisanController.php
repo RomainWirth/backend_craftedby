@@ -5,6 +5,7 @@ namespace app\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArtisanRequest;
 use App\Http\Requests\UpdateArtisanRequest;
+use App\Http\Resources\ArtisanResource;
 use App\Models\Artisan;
 
 class ArtisanController extends Controller
@@ -12,56 +13,40 @@ class ArtisanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return ArtisanResource::collection(Artisan::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreArtisanRequest $request)
+    public function store(StoreArtisanRequest $request): void
     {
-        //
+        Artisan::create($request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Artisan $artisan)
+    public function show(Artisan $artisan): Artisan
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Artisan $artisan)
-    {
-        //
+        return $artisan;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtisanRequest $request, Artisan $artisan)
+    public function update(UpdateArtisanRequest $request, Artisan $artisan): void
     {
-        //
+        $artisan->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artisan $artisan)
+    public function destroy(Artisan $artisan): void
     {
-        //
+        $artisan->delete();
     }
 }

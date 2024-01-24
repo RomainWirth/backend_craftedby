@@ -25,16 +25,12 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $role = Role::all()->random(1)->value('id');
-        $address = Address::all()->random(1)->value('id');
         return [
             'firstname' => fake()->firstName(),
             'lastname' => fake()->lastName(),
             'birthdate' => fake()->date(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
-            'role_id' => $role,
-            'address_id' => $address
         ];
     }
 

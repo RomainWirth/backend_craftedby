@@ -23,6 +23,10 @@ class Address extends Model
         'countryCode'
     ];
 
+    protected $hidden = [
+        'id'
+    ];
+
     protected $casts = [
         'id' => 'string'
     ];

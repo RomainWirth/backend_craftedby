@@ -22,8 +22,7 @@ class Artisan extends Model
         'siret',
         'about',
         'craftingDescription',
-        'theme_id',
-        'user_id'
+        'companyName'
     ];
     protected $casts = [
         'id' => 'string'
@@ -31,7 +30,7 @@ class Artisan extends Model
     protected $primaryKey = "id";
     protected $table = 'artisans';
 
-    public function users(): BelongsTo {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
 

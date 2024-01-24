@@ -26,9 +26,7 @@ class User extends Authenticatable
         'lastname',
         'birthdate',
         'email',
-        'password',
-        'role_id',
-        'address_id'
+        'password'
     ];
 
     /**
@@ -53,7 +51,7 @@ class User extends Authenticatable
     ];
     protected $primaryKey = 'id';
 
-    public function addresses(): BelongsTo {
+    public function address(): BelongsTo {
         return $this->belongsTo(Address::class);
     }
     public function role(): BelongsTo {

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,6 +17,10 @@ class UserSeeder extends Seeder
     {
         User::factory()
             ->count(10)
-            ->create();
+            ->create()
+            ->each(function($user){
+                $user->role()->attach(Role::all()->random(1)->pluck('id')->toArray());
+                $user->address()->attach(Address::factory(10)->create());
+            });
     }
 }
