@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\ArtisanController;
 use App\Http\Controllers\Api\CategoryController;
 use app\Http\Controllers\Api\ThemeController;
@@ -32,8 +33,34 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  * PUT|PATCH     /users/{user}               update  users.update
  * DELETE        /users/{user}               destroy users.destroy
  */
-Route::apiResource('users', UserController::class);
-Route::apiResource('artisans', ArtisanController::class);
+//Route::apiResource('users', UserController::class);
+// Show all users : for role admin
+Route::get('/users', [UserController::class, 'index']);
+// Store new user
+Route::post('/users', [UserController::class, 'store']);
+// Show current user
+Route::get('/users/{user}', [UserController::class, 'show']);
+// Update current user
+Route::put('/users/{user}', [UserController::class, 'update']);
+// Delete current user
+Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+Route::get('/address', [AddressController::class, 'index']);
+Route::get('/address/{user}', [AddressController::class, 'show']);
+Route::post('/address', [AddressController::class, 'store']);
+
+
+//Route::apiResource('artisans', ArtisanController::class);
+// Show all artisans : for role admin
+Route::get('/artisans', [ArtisanController::class, 'index']);
+// Store new artisan
+Route::post('/artisans', [ArtisanController::class, 'store']);
+// Show current artisan
+Route::get('/artisans/{artisan}', [ArtisanController::class, 'show']);
+// Update current artisan
+Route::put('/artisans/{artisan}', [ArtisanController::class, 'update']);
+// Delete current artisan
+Route::delete('/artisans/{artisan}', [ArtisanController::class, 'destroy']);
 
 Route::apiResource('items', ItemController::class);
 Route::apiResource('carts', CartController::class);

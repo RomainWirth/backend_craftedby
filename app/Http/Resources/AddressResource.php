@@ -20,6 +20,7 @@ class AddressResource extends JsonResource
             'postalCode' => $this->postalCode,
             'city' => $this->city,
             'countryCode' => $this->countryCode,
+            'user_id' => $this->user_id,
         ];
     }
 }

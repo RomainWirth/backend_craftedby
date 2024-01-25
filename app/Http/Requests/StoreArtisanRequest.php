@@ -11,7 +11,7 @@ class StoreArtisanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class StoreArtisanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'companyName' => 'required|string|max:255',
+            'about' => 'text',
+            'craftingDescription' => 'text',
+            'siret' => 'required|integer',
+            'theme_id' => 'required|uuid',
+            'user_id' => 'required|uuid',
+        ];
+    }
+    public function message(): array
+    {
+        return [
+            'companyName.string' => 'The companyName must be a string.',
+            'companyName.max' => 'The companyName must not exceed 255 characters.',
+            'companyName.required' => 'The companyName field is required'
         ];
     }
 }

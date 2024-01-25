@@ -51,8 +51,8 @@ class User extends Authenticatable
     ];
     protected $primaryKey = 'id';
 
-    public function address(): BelongsTo {
-        return $this->belongsTo(Address::class);
+    public function address(): HasOne {
+        return $this->hasOne(Address::class);
     }
     public function role(): BelongsTo {
         return $this->belongsTo(Role::class);

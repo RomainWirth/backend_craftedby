@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class UserResource extends JsonResource
 {
+    public static $wrap = 'user';
     /**
      * Transform the resource into an array.
      *
@@ -19,16 +20,17 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->resource->id,
             'firstname' => $this->resource->firstname,
             'lastname' => $this->resource->lastname,
             'birthdate' => $this->resource->birthdate,
             'email' => $this->resource->email,
-            $this->mergeWhen(true, [
-                'role' => $this->resource->role->role,
-            ]),
-            /*'role' => $this->resource->role->role,*/
-            /*'address' => AddressResource::collection($this->whenloaded('address')),*/
+            'role' => $this->resource->role->role,
             'address' => $this->resource->address,
+//            $this->mergeWhen($request->user, [
+//                'role' => $this->resource->role->role,
+//                'address' => $this->resource->address,
+//            ]),
         ];
     }
 }
