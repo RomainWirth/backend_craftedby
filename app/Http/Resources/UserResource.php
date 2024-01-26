@@ -25,11 +25,11 @@ class UserResource extends JsonResource
             'lastname' => $this->resource->lastname,
             'birthdate' => $this->resource->birthdate,
             'email' => $this->resource->email,
-            'role' => $this->resource->role->role,
-            'address' => $this->resource->address,
+            'role' => new RoleResource($this->resource->role->id),
+            'address' => new AddressResource($this->resource->address),
 //            $this->mergeWhen($request->user, [
-//                'role' => $this->resource->role->role,
-//                'address' => $this->resource->address,
+//                'role' => new RoleResource($this->resource->role->id),
+//                'address' => new AddressResource($this->resource->address),
 //            ]),
         ];
     }

@@ -21,6 +21,7 @@ class Address extends Model
         'postalCode',
         'city',
         'countryCode',
+        'user_id',
     ];
 
     protected $hidden = [
@@ -32,7 +33,7 @@ class Address extends Model
     ];
     protected $primaryKey = "id";
 
-    public function users(): BelongsTo {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
 }
