@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreItemRequest;
@@ -14,15 +14,18 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        $item = Item::all();
+        return response()->json($item);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(StoreItemRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        $item = Item::create($validatedData);
+        return response()->json($item, 201);
     }
 
     /**
@@ -38,15 +41,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Item $item)
-    {
-        //
+        return response()->json($item);
     }
 
     /**
@@ -54,7 +49,9 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        //
+        $validatedData = $request->validated();
+        $item->update($validatedData);
+        return response()->json($item);
     }
 
     /**
@@ -62,6 +59,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+        return response()->json(['message' => 'item deleted with success!']);
     }
 }

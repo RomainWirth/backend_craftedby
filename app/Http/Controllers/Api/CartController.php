@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCartRequest;
@@ -14,7 +14,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $carts = Cart::all();
+        return response()->json($carts);
     }
 
     /**
@@ -30,7 +31,9 @@ class CartController extends Controller
      */
     public function store(StoreCartRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        $cart = Cart::create($validatedData);
+        return response()->json($cart, 201);
     }
 
     /**
@@ -54,7 +57,9 @@ class CartController extends Controller
      */
     public function update(UpdateCartRequest $request, Cart $cart)
     {
-        //
+        $validatedData = $request->validated();
+        $cart->update($validatedData);
+        return response()->json($cart);
     }
 
     /**
@@ -62,6 +67,7 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        $cart->delete();
+        return response()->json(['message' => 'Cart deleted successfully']);
     }
 }

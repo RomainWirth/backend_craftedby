@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSizeRequest;
@@ -14,7 +14,8 @@ class SizeController extends Controller
      */
     public function index()
     {
-        //
+        $sizes = Size::all();
+        return response()->json($sizes);
     }
 
     /**
@@ -30,7 +31,9 @@ class SizeController extends Controller
      */
     public function store(StoreSizeRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        $size = Size::create($validatedData);
+        return response()->json($size, 201);
     }
 
     /**

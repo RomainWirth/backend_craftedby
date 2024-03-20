@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMaterialRequest;
@@ -14,7 +14,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        //
+        return Material::all();
     }
 
     /**
@@ -30,7 +30,9 @@ class MaterialController extends Controller
      */
     public function store(StoreMaterialRequest $request)
     {
-        //
+        $requestData = $request->all();
+        $material = Material::create($requestData);
+        return response()->json($material, 201);
     }
 
     /**
@@ -54,7 +56,12 @@ class MaterialController extends Controller
      */
     public function update(UpdateMaterialRequest $request, Material $material)
     {
-        //
+        $requestData = $request->all();
+        $material->update($requestData);
+        return response()->json([
+            'material' => $material,
+            'message' => 'Material updated successfully',
+        ]);
     }
 
     /**
@@ -62,6 +69,9 @@ class MaterialController extends Controller
      */
     public function destroy(Material $material)
     {
-        //
+        $material->delete();
+        return response()->json([
+            'message' => 'Material deleted successfully'
+        ]);
     }
 }
