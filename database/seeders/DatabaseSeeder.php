@@ -3,6 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Invoice;
+use App\Models\User;
+use App\Models\Zip_code;
+use Database\Factories\Zip_codeFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +23,15 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call([
+            SpatieSeeder::class,
+            AdminSeeder::class,
+            OwnerSeeder::class,
+            UserSeeder::class,
+            BusinessSeeder::class,
+            ProductsSeeder::class,
+            StatusSeeder::class,
+            InvoicesSeeder::class,
+        ]);
     }
 }

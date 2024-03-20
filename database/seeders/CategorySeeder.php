@@ -13,11 +13,26 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = ['meuble', 'vêtement', 'chaussure', 'bijoux', 'jouet'];
-        foreach($categories as $category) {
-            Category::create([
-                'name' => $category
-            ]);
+        $categories = [
+            'Textile et Mode',
+            'Meubles',
+            'Métal',
+            'Bois',
+            'Céramique et Poterie',
+            'Cuir',
+            'Verre',
+            'Pierre',
+            'Bijoux',
+            'Jouets',
+            'Fleurs et Plantes',
+            'Art Graphique',
+            'Alimentaire',
+            'Métiers du Bâtiment',
+            'Services Artisanaux',
+        ];
+
+        foreach ($categories as $category) {
+            Category::create(['name' => $category]);
         }
     }
 }
