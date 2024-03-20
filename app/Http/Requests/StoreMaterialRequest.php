@@ -25,4 +25,11 @@ class StoreMaterialRequest extends FormRequest
             //
         ];
     }
+
+    public function message(): array
+    {
+        return [
+            //
+        ];
+    }
 }

@@ -22,7 +22,15 @@ class StoreSpecialtyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'specialty' => 'required|string',
+        ];
+    }
+
+    Public function message(): array
+    {
+        return [
+            'specialty.string' => 'You need to add a name for the specialty.',
+            'specialty.required' => 'Field required.',
         ];
     }
 }
