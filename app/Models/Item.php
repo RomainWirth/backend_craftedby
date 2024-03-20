@@ -27,7 +27,7 @@ class Item extends Model
         'category_id',
         'size_id',
         'color_id',
-        'artisan_id'
+        'artisan_id',
     ];
 
     protected $casts = [
