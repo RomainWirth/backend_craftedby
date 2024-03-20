@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
             'firstname' => 'string|max:255',
             'lastname' => 'string|max:255',
             'birthdate' => 'date',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email', // |unique:users
             'password' => 'required|string|min:8|confirmed',
         ];
     }
@@ -38,7 +38,7 @@ class UpdateUserRequest extends FormRequest
             'lastname.max' => 'The firstname field must not exceed 255 characters.',
             'email.required' => 'The email field is required.',
             'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'The email address is already in use.',
+//            'email.unique' => 'The email address is already in use.',
             'password.required' => 'The password field is required.',
             'password.string' => 'The password field must be a string.',
             'password.min' => 'The password must be at least 8 characters long.',

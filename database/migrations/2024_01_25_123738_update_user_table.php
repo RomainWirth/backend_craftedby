@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('firstname', 255)->nullable()->change();
             $table->string('lastname', 255)->nullable()->change();
             $table->date('birthdate')->nullable()->change();
-            $table->foreignUuid('role_id')->default('9b294817-b6af-4c0a-8f07-c7986972d8be')->change();
         });
     }
 

@@ -6,11 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -28,7 +30,6 @@ class User extends Authenticatable
         'birthdate',
         'email',
         'password',
-        'role_id',
     ];
 
     /**
@@ -56,19 +57,23 @@ class User extends Authenticatable
     public function address(): HasOne {
         return $this->hasOne(Address::class);
     }
-    public function role(): BelongsTo {
-        return $this->belongsTo(Role::class);
+    public function roles(): BelongsToMany {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function permissions(): BelongsToMany {
+        return $this->belongsToMany(Permission::class);
     }
 
     public function artisan(): HasOne {
         return $this->hasOne(Artisan::class);
     }
 
-    public function carts(): HasMany {
+    public function cart(): HasMany {
         return $this->hasMany(Cart::class);
     }
 
-    public function reviews(): HasMany {
-        return $this->hasMany(Review::class);
-    }
+//    public function reviews(): HasMany {
+//        return $this->hasMany(Review::class);
+//    }
 }

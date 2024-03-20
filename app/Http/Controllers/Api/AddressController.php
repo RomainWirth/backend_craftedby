@@ -12,6 +12,13 @@ class AddressController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @SWG\Get(
+     *      path="/users/address",
+     *      summary="Get a list of users",
+     *      tags={"Users"},
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Invalid request")
+     *  )
      */
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
@@ -21,9 +28,9 @@ class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAddressRequest $request): void
+    public function store(StoreAddressRequest $request, $userId)
     {
-        Address::create($request->all());
+        Address::create(array_merge($request->all(), ['user_id' => $userId]));
     }
 
     /**

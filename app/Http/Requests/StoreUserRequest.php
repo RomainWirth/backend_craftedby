@@ -25,8 +25,8 @@ class StoreUserRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'birthdate' => 'nullable|date',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed', // |confirmed
+            'email' => 'required|email', // |unique:users
+            'password' => 'required|string|min:8', // |confirmed
         ];
     }
     public function message(): array
@@ -38,7 +38,7 @@ class StoreUserRequest extends FormRequest
             'lastname.max' => 'The firstname field must not exceed 255 characters.',
             'email.required' => 'The email field is required.',
             'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'The email address is already in use.',
+//            'email.unique' => 'The email address is already in use.',
             'password.required' => 'The password field is required.',
             'password.string' => 'The password field must be a string.',
             'password.min' => 'The password must be at least 8 characters long.',

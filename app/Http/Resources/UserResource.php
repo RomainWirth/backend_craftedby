@@ -25,8 +25,7 @@ class UserResource extends JsonResource
             'lastname' => $this->resource->lastname,
             'birthdate' => $this->resource->birthdate,
             'email' => $this->resource->email,
-            'role' => new RoleResource($this->resource->role->id),
-            'address' => new AddressResource($this->resource->address),
+            'address' => new AddressResource($this->address),
 //            $this->mergeWhen($request->user, [
 //                'role' => new RoleResource($this->resource->role->id),
 //                'address' => new AddressResource($this->resource->address),
