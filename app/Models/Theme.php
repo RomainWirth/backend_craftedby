@@ -25,7 +25,7 @@ class Theme extends Model
     ];
     protected $primaryKey = "id";
 
-    public function artisans(): HasMany {
+    public function artisan(): HasMany {
         return $this->hasMany(Artisan::class);
     }
 }
