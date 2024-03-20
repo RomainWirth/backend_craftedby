@@ -18,13 +18,18 @@ class ArtisanResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $specialties = [];
+        foreach ($this->specialty as $spec) {
+            $specialties = $spec->name;
+        }
         return [
             'companyName' => $this->resource->companyName,
             'about' => $this->resource->about,
             'craftingDescription' => $this->resource->craftingDescription,
             'siret' => $this->resource->siret,
-            'specialty' => SpecialtyResource::collection($this->resource->specialties),
-            'theme' => $this->resource->theme->name,
+            'specialty' => $specialties,
+            'theme' => new ThemeResource($this->theme),
+            'user' => new UserResource($this->resource->user)
         ];
     }
 }

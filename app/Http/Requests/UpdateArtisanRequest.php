@@ -22,7 +22,12 @@ class UpdateArtisanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'companyName' => 'required|string|max:255',
+            'about' => 'text',
+            'craftingDescription' => 'text',
+            'siret' => 'integer', // add required when logic implemented
+            'theme_id' => 'required|uuid',
+            'user_id' => 'required|uuid',
         ];
     }
 }

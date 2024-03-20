@@ -22,7 +22,9 @@ class Artisan extends Model
         'siret',
         'about',
         'craftingDescription',
-        'companyName'
+        'companyName',
+        'theme_id',
+        'user_id',
     ];
     protected $casts = [
         'id' => 'string'

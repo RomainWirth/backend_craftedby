@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSpecialtyRequest;
@@ -14,7 +14,8 @@ class SpecialtyController extends Controller
      */
     public function index()
     {
-        //
+        $specialties = Specialty::all();
+        return response()->json($specialties);
     }
 
     /**
@@ -54,7 +55,8 @@ class SpecialtyController extends Controller
      */
     public function update(UpdateSpecialtyRequest $request, Specialty $specialty)
     {
-        //
+        $specialty->update($request->all());
+        return response()->json();
     }
 
     /**
@@ -62,6 +64,7 @@ class SpecialtyController extends Controller
      */
     public function destroy(Specialty $specialty)
     {
-        //
+        $specialty->delete();
+        return response()->json(['message' => 'specialty deleted successfully!']);
     }
 }

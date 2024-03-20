@@ -23,11 +23,12 @@ class StoreArtisanRequest extends FormRequest
     {
         return [
             'companyName' => 'required|string|max:255',
-            'about' => 'text',
-            'craftingDescription' => 'text',
-            'siret' => 'required|integer',
-            'theme_id' => 'required|uuid',
-            'user_id' => 'required|uuid',
+            'about' => 'required|string',
+            'craftingDescription' => 'required|string',
+            'siret' => 'integer', // add required when logic implemented
+            'theme' => 'required|string',
+            'user_id' => 'required|string|uuid',
+            'specialty' => 'required',
         ];
     }
     public function message(): array
@@ -35,7 +36,19 @@ class StoreArtisanRequest extends FormRequest
         return [
             'companyName.string' => 'The companyName must be a string.',
             'companyName.max' => 'The companyName must not exceed 255 characters.',
-            'companyName.required' => 'The companyName field is required'
+            'companyName.required' => 'The companyName field is required',
+
+            'about.string' => 'You need to add a quick paragraph.',
+            'about.required' => 'Field required.',
+
+            'craftingDescription.string' => 'You need to add a description of you crafting method.',
+            'craftingDescription.required' => 'Field required.',
+
+            'siret.integer' => 'Field must be integers.',
+            'siret.unique' => 'Artisan already exists',
+
+//            'theme_id' => 'Field is required',
+//            'user_id' => 'Field is required',
         ];
     }
 }

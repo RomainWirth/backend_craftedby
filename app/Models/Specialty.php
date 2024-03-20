@@ -20,8 +20,9 @@ class Specialty extends Model
         'id' => 'string'
     ];
     protected $primaryKey = "id";
+    protected $table = 'specialties';
 
-    public function artisans(): BelongsToMany {
+    public function artisan(): BelongsToMany {
         return $this->belongsToMany(Artisan::class);
     }
 }
