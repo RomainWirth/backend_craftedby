@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\ArtisanController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\SizeController;
@@ -101,5 +102,24 @@ Route::apiResource('orders', OrderController::class);
 //});
 
 /* Admins */
-Route::apiResource('categories', CategoryController::class);
-Route::apiResource('sizes', SizeController::class);
+//Route::apiResource('categories', CategoryController::class);
+Route::prefix('categories')->group(function() {
+    Route::get('/', [CategoryController::class, 'index']); // get all categories
+    Route::post('/', [CategoryController::class, 'store']); // create new category
+    Route::put('/{category}', [CategoryController::class, 'update']);
+    Route::delete('/{category}', [CategoryController::class, 'destroy']);
+});
+//Route::apiResource('sizes', SizeController::class);
+Route::prefix('sizes')->group(function() {
+    Route::get('/', [SizeController::class, 'index']); // get all categories
+    Route::post('/', [SizeController::class, 'store']); // create new category
+    Route::put('/{size}', [SizeController::class, 'update']);
+    Route::delete('/{size}', [SizeController::class, 'destroy']);
+});
+//Route::apiResource('colors', SizeController::class);
+Route::prefix('colors')->group(function() {
+    Route::get('/', [ColorController::class, 'index']); // get all categories
+    Route::post('/', [ColorController::class, 'store']); // create new category
+    Route::put('/{color}', [ColorController::class, 'update']);
+    Route::delete('/{color}', [ColorController::class, 'destroy']);
+});

@@ -45,7 +45,7 @@ class StoreArtisanRequest extends FormRequest
             'craftingDescription.required' => 'Field required.',
 
             'siret.integer' => 'Field must be integers.',
-            'siret.unique' => 'Artisan already exists',
+//            'siret.unique' => 'Artisan already exists',
 
 //            'theme_id' => 'Field is required',
 //            'user_id' => 'Field is required',

@@ -19,12 +19,13 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+//        dd($request);
         return [
-            'id' => $this->resource->id,
-            'firstname' => $this->resource->firstname,
-            'lastname' => $this->resource->lastname,
-            'birthdate' => $this->resource->birthdate,
-            'email' => $this->resource->email,
+            'id' => $this->id,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'birthdate' => $this->birthdate,
+            'email' => $this->email,
             'address' => new AddressResource($this->address),
 //            $this->mergeWhen($request->user, [
 //                'role' => new RoleResource($this->resource->role->id),

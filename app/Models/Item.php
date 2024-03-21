@@ -49,7 +49,7 @@ class Item extends Model
     }
 
     public function color(): BelongsTo {
-        return $this->belongsTo(Size::class);
+        return $this->belongsTo(Color::class);
     }
 
     public function materials(): BelongsToMany {

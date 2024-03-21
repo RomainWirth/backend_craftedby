@@ -10,23 +10,23 @@ use App\Models\Artisan;
 use App\Models\Specialty;
 use App\Models\Theme;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ArtisanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): ResourceCollection
     {
-        $artisan = ArtisanResource::collection(Artisan::all());
-//        dd($artisan);
-        return  response()->json($artisan);
+        return ArtisanResource::collection(Artisan::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreArtisanRequest $request)
+    public function store(StoreArtisanRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
         $existingArtisan = Artisan::where('siret', $validatedData['siret'])->first();
@@ -57,7 +57,7 @@ class ArtisanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Artisan $artisan)
+    public function show(Artisan $artisan): JsonResponse
     {
         return response()->json($artisan);
     }
@@ -65,7 +65,7 @@ class ArtisanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtisanRequest $request, Artisan $artisan)
+    public function update(UpdateArtisanRequest $request, Artisan $artisan): JsonResponse
     {
         $validatedData = $request->validated();
         $artisan->update($validatedData);
@@ -76,7 +76,7 @@ class ArtisanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artisan $artisan)
+    public function destroy(Artisan $artisan): JsonResponse
     {
         $artisan->delete();
         return response()->json(['message' => 'Artisan deleted with success !'], 201);
