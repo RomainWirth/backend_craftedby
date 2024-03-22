@@ -5,25 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSpecialtyRequest;
 use App\Http\Requests\UpdateSpecialtyRequest;
+use App\Http\Resources\SpecialtyResource;
 use App\Models\Specialty;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class SpecialtyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): ResourceCollection
     {
-        $specialties = Specialty::all();
-        return response()->json($specialties);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return SpecialtyResource::collection(Specialty::all());
     }
 
     /**
@@ -31,7 +24,14 @@ class SpecialtyController extends Controller
      */
     public function store(StoreSpecialtyRequest $request)
     {
-        //
+        $requestData = $request->all();
+
+        $existingSpecialty = Specialty::where('name', $requestData['name'])->first();
+        if(empty($existingSpecialty)) {
+            $specialty = Specialty::create($requestData);
+            return response()->json($specialty, 201);
+        }
+        return response()->json(['message' => 'Specialty already exists.'], 409);
     }
 
     /**

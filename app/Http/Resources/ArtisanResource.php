@@ -19,13 +19,15 @@ class ArtisanResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'companyName' => $this->companyName,
             'about' => $this->about,
             'craftingDescription' => $this->craftingDescription,
             'siret' => $this->siret,
             'specialty' => $this->specialties,
             'theme' => new ThemeResource($this->theme),
-            'user' => new UserResource($this->user)
+            'user' => new UserResource($this->user),
+            'items' => $this->items
         ];
     }
 }

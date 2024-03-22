@@ -34,9 +34,10 @@ class ItemController extends Controller
     {
 //        dd('toto');
         $validatedData = $request->validated();
-//        $existingItem = Item::where('id', $validatedData[''])->first();
+//        dd($validatedData);
+        $existingItem = Item::where('name', $validatedData['name'])->first();
 //        dd(empty($existingItem));
-//        if (empty($existingItem)) {
+        if (empty($existingItem)) {
 
 //            $item = Item::create($validatedData);
             $item = new Item();
@@ -47,34 +48,42 @@ class ItemController extends Controller
             $item->stock = $validatedData['stock'];
 
             $category = Category::where('name', $validatedData['category'])->first();
+//            dd($category);
             if (!empty($category)) {
                 $item->category()->associate($category);
             }
 
-            $size = Size::where('name', $validatedData['size']);
+            $size = Size::where('name', $validatedData['size'])->first();
+//            dd($size);
             if (!empty($size)) {
                 $item->size()->associate($size);
             }
 
-            $color = Color::firstOrCreate(['name' => $validatedData['color']]);
-            $item->color()->associate($color);
+            $color = Color::where('name', $validatedData['color'])->first();
+//            dd($color);
+            if (!empty($color)) {
+                $item->color()->associate($color);
+            }
 
             $artisan_id = Artisan::where('id', $validatedData['artisan_id'])->first();
+//            dd($artisan_id);
             if (!empty($artisan_id)) {
                 $item->artisan()->associate($artisan_id);
             }
-
+//            dd($item);
             $item->save();
+//            dd($item);
 
             $materials = $validatedData['materials'];
+//            dd($materials);
             foreach ($materials as $mat) {
                 $material = Material::where('name', $mat)->first();
                 $item->materials()->attach($material);
             }
 
             return response()->json($item, 201);
-//        }
-//        return response()->json(['message' => 'Item already exists.'], 409); // 409 Conflict
+        }
+        return response()->json(['message' => 'Item already exists.'], 409); // 409 Conflict
     }
 
     /**

@@ -2,14 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Specialty;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * @property Specialty $specialty
- */
-class SpecialtyResource extends JsonResource
+class CartResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +16,10 @@ class SpecialtyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'specialty' => $this->name,
+            'user' => $this->user,
+            'paymentStatus' => $this->paymentStatus,
+            'items' => $this->items,
+            'order' => $this->order,
         ];
     }
 }

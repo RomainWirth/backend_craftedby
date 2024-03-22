@@ -41,18 +41,18 @@ class UserController extends Controller
      *       @OA\Response(response=409, description="User already exists")
      *   )
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): JsonResponse
     {
         $requestData = $request->all();
 
         $existingUser = User::where('email', $requestData['email'])->first();
-        if (empty($existingUser)) {
-            $user = User::create($requestData);
-            $addressData = $request->input('address');
-            $user->address()->create($addressData);
-            return response()->json($user, 201);
+        if ($existingUser->exists()) {
+            return response()->json(['message' => 'User already exists.'], 409);
         }
-        return response()->json(['message' => 'User already exists.'], 409);
+        $user = User::create($requestData);
+        $addressData = $request->input('address');
+        $user->address()->create($addressData);
+        return response()->json($user, 201);
     }
 
      /**
@@ -66,20 +66,11 @@ class UserController extends Controller
       *       @OA\Response(response=404, description="Not found")
       *   )
      */
-//    public function show(User $user)
-//    {
-//        $user = User::findOrFail($id);
-//
-//        $this->authorize('view', $user);
-//        return response()->json([
-//            'massage' => 'Current user',
-//            'user' => $user
-//        ]);
-//    }
-    public function show(String $id)
+    public function show($id): JsonResponse
     {
-        $user = new UserResource(User::find($id));
-        if(!empty($user)) {
+        $existingUser = User::find($id)->first();
+        if($existingUser->exists()) {
+            $user = new UserResource($existingUser);
             return response()->json($user);
         } else {
             return response()->json([
@@ -99,12 +90,15 @@ class UserController extends Controller
      *        @OA\Response(response=404, description="User not found")
      *    )
      */
-    public function update(UpdateUserRequest $request, string $id)
+    public function update(UpdateUserRequest $request, $id): JsonResponse
     {
         $validatedData = $request->validated();
         if(User::where('id', $id)->exists()) {
             $user = User::find($id);
             $user->firstname = is_null($validatedData['firstname']) ? $user->firstname : $validatedData['firstname'];
+            $user->lastname = is_null($validatedData['lastname']) ? $user->lastname : $validatedData['lastname'];
+            $user->birthdate = is_null($validatedData['birthdate']) ? $user->birthdate : $validatedData['birthdate'];
+            $user->password = is_null($validatedData['password']) ? $user->password : $validatedData['password'];
             //! add fields
             $user->save();
             return response()->json([
@@ -116,15 +110,6 @@ class UserController extends Controller
                 "message" => "User not found"
             ], 404);
         }
-//        if (isset($validatedData['firstname'])) {
-//            $user->firstname = $validatedData['firstname'];
-//        }
-        //! add fields
-//        $user->save();
-//        return response()->json([
-//            'message' => 'User updated successfully',
-//            'user' => $user,
-//        ]);
     }
 
     /**
@@ -138,23 +123,15 @@ class UserController extends Controller
      *         @OA\Response(response=404, description="User not found")
      *     )
      */
-    public function destroy(String $id)
+    public function destroy($id): JsonResponse
     {
-//        if(User::where('id', $id)->exists()) {
-//            $user = User::find($id);
-//            $user->delete();
-//            return response()->json([
-//                "message" => "User deleted successfully"
-//            ], 202);
-//        } else {
-//            return response()->json([
-//                "message" => "User not found"
-//            ], 404);
-//        }
-        $user = User::findOrFail($id);
-        $user->delete();
-        return response()->json([
-            'message' => 'User deleted successfully',
-        ]);
+        $user = User::find($id);
+        if ($user->exists()) {
+            $user->delete();
+            return response()->json([
+                'message' => 'User deleted successfully',
+            ], 201);
+        }
+        return response()->json(['message' => 'user not found'], 404);
     }
 }
