@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Invoice;
-use App\Models\User;
-use App\Models\Zip_code;
-use Database\Factories\Zip_codeFactory;
+//use App\Models\Invoice;
+//use App\Models\User;
+//use App\Models\Zip_code;
+//use Database\Factories\Zip_codeFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,13 +25,20 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             SpatieSeeder::class,
+            RoleSeeder::class,
             AdminSeeder::class,
-            OwnerSeeder::class,
             UserSeeder::class,
-            BusinessSeeder::class,
-            ProductsSeeder::class,
-            StatusSeeder::class,
-            InvoicesSeeder::class,
+            AddressSeeder::class,
+            SpecialtySeeder::class,
+            ThemeSeeder::class,
+            ArtisanSeeder::class,
+            ColorSeeder::class,
+            SizeSeeder::class,
+            MaterialSeeder::class,
+            CategorySeeder::class,
+            ItemSeeder::class,
+            CartSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

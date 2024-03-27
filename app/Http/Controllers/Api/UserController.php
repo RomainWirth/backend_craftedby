@@ -7,11 +7,12 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Address;
-use http\Env\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends Controller
@@ -28,6 +29,7 @@ class UserController extends Controller
      */
     public function index(): ResourceCollection
     {
+        $this->authorize('viewAny', User::class);
         return UserResource::collection(User::all());
     }
 
@@ -45,10 +47,6 @@ class UserController extends Controller
     {
         $requestData = $request->all();
 
-        $existingUser = User::where('email', $requestData['email'])->first();
-        if ($existingUser->exists()) {
-            return response()->json(['message' => 'User already exists.'], 409);
-        }
         $user = User::create($requestData);
         $addressData = $request->input('address');
         $user->address()->create($addressData);
@@ -68,6 +66,8 @@ class UserController extends Controller
      */
     public function show($id): JsonResponse
     {
+        $this->authorize('view', User::class);
+
         $existingUser = User::find($id)->first();
         if($existingUser->exists()) {
             $user = new UserResource($existingUser);
@@ -92,6 +92,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id): JsonResponse
     {
+        $this->authorize('edit', User::class);
+
         $validatedData = $request->validated();
         if(User::where('id', $id)->exists()) {
             $user = User::find($id);
@@ -125,6 +127,7 @@ class UserController extends Controller
      */
     public function destroy($id): JsonResponse
     {
+        $this->authorize('delete', User::class);
         $user = User::find($id);
         if ($user->exists()) {
             $user->delete();
@@ -133,5 +136,64 @@ class UserController extends Controller
             ], 201);
         }
         return response()->json(['message' => 'user not found'], 404);
+    }
+
+    /**
+     * Login user and create token
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(Request $request): JsonResponse
+    {
+        $credentials = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+//        dd($credentials);
+        if (!Auth::attempt($credentials)){
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ],401);
+        }
+
+        $email = $credentials['email'];
+//        dd($email);
+        $user = User::where('email', $email)->first();
+//        $user = Auth::user();
+//        dd($user);
+        $user = new UserResource($user);
+//        dd($user);
+
+        $tokenResult = $user->createToken('Personal Access Token');
+//        dd($tokenResult);
+        $token = $tokenResult->plainTextToken;
+//        dd($token);
+
+        return response()->json([
+            'accessToken' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+            'message' => 'Login successful',
+        ], 200);
+
+
+
+    }
+
+    /**
+     * Logout user (Revoke the token)
+     *
+     * @param Request $request
+     * @return JsonResponse [string] message
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+
     }
 }

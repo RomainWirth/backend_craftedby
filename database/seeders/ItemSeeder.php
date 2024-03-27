@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Color;
 use App\Models\Item;
 use App\Models\Material;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

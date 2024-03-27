@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
+
 
 class SpatieSeeder extends Seeder
 {
@@ -14,28 +17,44 @@ class SpatieSeeder extends Seeder
     public function run(): void
     {
         // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'show users']);
-        Permission::create(['name' => 'edit users']);
-        Permission::create(['name' => 'delete users']);
-        Permission::create(['name' => 'change role']);
+        $permissions = [
+            'show-users',
+            'edit-user',
+            'delete-user',
+            'store-artisan',
+            'edit-artisan',
+            'delete-artisan',
+//            'toggle-artisan',
+            'store-specialty',
+            'edit-specialty',
+            'delete-specialty',
+            'store-item',
+            'edit-item',
+            'delete-item',
+            'store-category',
+            'edit-category',
+            'delete-category',
+            'store-color',
+            'edit-color',
+            'delete-color',
+            'store-size',
+            'edit-size',
+            'delete-size',
+            'store-cart',
+            'show-cart',
+            'edit-cart',
+            'delete-cart',
+            'show-orders',
+            'store-order',
+            'change-role'
+        ];
 
-        Permission::create(['name' => 'store artisan']);
-        Permission::create(['name' => 'edit artisan']);
-        Permission::create(['name' => 'delete artisan']);
-        Permission::create(['name' => 'toggle artisan']);
-
-        Permission::create(['name' => 'store products']);
-        Permission::create(['name' => 'edit products']);
-        Permission::create(['name' => 'delete products']);
-        Permission::create(['name' => 'toggle products']);
-
-        Permission::create(['name' => 'show invoices']);
-        Permission::create(['name' => 'store invoices']);
-        Permission::create(['name' => 'edit invoices']);
-        Permission::create(['name' => 'delete invoices']);
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
 
     }
 }

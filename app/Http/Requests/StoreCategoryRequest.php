@@ -22,7 +22,15 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+        ];
+    }
+    public function message(): array
+    {
+        return [
+            'name.required' => 'Category name is required',
+            'name.string' => 'Category name must be string',
+            'name.max' => 'Category name must not exceed 255 characters'
         ];
     }
 }

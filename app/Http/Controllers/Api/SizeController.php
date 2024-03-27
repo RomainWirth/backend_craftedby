@@ -33,16 +33,19 @@ class SizeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSizeRequest $request, Size $size)
+    public function update(UpdateSizeRequest $request, Size $size): JsonResponse
     {
-        //
+        $size->update($request->all());
+        return response()->json($size, 201);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Size $size)
+    public function destroy(Size $size): JsonResponse
     {
-        //
+        $size->delete();
+        return response()->json(['message' => 'Size deleted successfully'], 201);
     }
 }

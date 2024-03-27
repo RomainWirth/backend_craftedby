@@ -21,8 +21,8 @@ class ArtisanSeeder extends Seeder
             ->create()
             ->each(function($artisan){
                 $artisan->specialties()->attach(Specialty::all()->random(1)->pluck('id')->toArray());
-                $artisan->theme()->attach(Theme::all()->random(1)->pluck('id')->toArray());
-                $artisan->user()->attach(User::all()->random(1)->pluck('id')->toArray());
+                $artisan->theme()->associate(Theme::all()->random(1)->pluck('id')->toArray());
+                $artisan->user()->associate(User::all()->random(1)->pluck('id')->toArray());
             });
     }
 }

@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('lastname');
             $table->date('birthdate');
             $table->string('email')->unique();
+            $table->string('email_verified_at')->nullable();
             $table->string('password');
+            $table->rememberToken();
             $table->foreignUuid('address_id')->nullable()->references('id')->on('addresses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignUuid('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+//            $table->foreignUuid('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

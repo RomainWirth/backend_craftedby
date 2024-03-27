@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreThemeRequest extends FormRequest
+class StoreSizeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,13 +25,12 @@ class StoreThemeRequest extends FormRequest
             'name' => 'required|string|max:255',
         ];
     }
-
     public function message(): array
     {
         return [
-            'name.required' => 'Theme name is required',
-            'name.string' => 'Theme name must be string',
-            'name.max' => 'Theme name must not exceed 255 characters'
+            'name.required' => 'Size name is required',
+            'name.string' => 'Size name must be string',
+            'name.max' => 'Size name must not exceed 255 characters'
         ];
     }
 }

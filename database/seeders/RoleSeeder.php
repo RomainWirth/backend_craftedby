@@ -14,45 +14,64 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminRole = Role::create(['name' => 'admin']);
-        $artisanRole = Role::create(['name' => 'artisan']);
-        $userRole = Role::create(['name' => 'user']);
+        $superAdmin = Role::create(['name' => 'super-admin']);
+        $superAdmin->givePermissionTo(Permission::all());
 
-        $manageUsersPermission = Permission::create(['name' => 'manage users']);
-        $createUserPermission = Permission::create(['name' => 'create user']);
-        $updateUserPermission = Permission::create(['name' => 'update user']);
-        $deleteUserPermission = Permission::create(['name' => 'delete user']);
+        $admin = Role::create(['name' => 'admin']);
+        $artisan = Role::create(['name' => 'artisan']);
+        $customer = Role::create(['name' => 'user']);
 
-        $manageArtisansPermission = Permission::create(['name' => 'manage artisans']);
-        $createArtisanPermission = Permission::create(['name' => 'create artisan']);
-        $updateArtisanPermission = Permission::create(['name' => 'update artisan']);
-        $deleteArtisanPermission = Permission::create(['name' => 'delete artisan']);
+        $admin->givePermissionTo([
+            'show-users',
+            'edit-user',
+            'delete-user',
+            'store-specialty',
+            'edit-specialty',
+            'delete-specialty',
+            'store-category',
+            'edit-category',
+            'delete-category',
+            'store-color',
+            'edit-color',
+            'delete-color',
+            'store-size',
+            'edit-size',
+            'delete-size',
+            'change-role',
+            'store-cart',
+            'show-cart',
+            'edit-cart',
+            'delete-cart',
+            'show-orders',
+            'store-order',
+        ]);
 
-        $createItemPermission = Permission::create(['name' => 'create item']);
-        $updateItemPermission = Permission::create(['name' => 'update item']);
-        $deleteItemPermission = Permission::create(['name' => 'delete item']);
+        $artisan->givePermissionTo([
+            'edit-user',
+            'delete-user',
+            'edit-artisan',
+            'delete-artisan',
+            'store-item',
+            'edit-item',
+            'delete-item',
+            'store-cart',
+            'show-cart',
+            'edit-cart',
+            'delete-cart',
+            'show-orders',
+            'store-order',
+        ]);
 
-        $createCartPermission = Permission::create(['name' => 'create cart']);
-        $updateCartPermission = Permission::create(['name' => 'update cart']);
-        $deleteCartPermission = Permission::create(['name' => 'delete cart']);
-
-        $manageOrdersPermission = Permission::create(['name' => 'manage orders']);
-        $createOrderPermission = Permission::create(['name' => 'create order']);
-
-        $clientPermission = [
-
-        ];
-
-        $artisanPermission = [
-
-        ];
-
-        $adminPermissions = [
-            $manageUsersPermission,
-            $manageArtisansPermission,
-            $manageOrdersPermission
-        ];
-
-        $adminRole->givePermissionTo('all');
+        $customer->givePermissionTo([
+            'edit-user',
+            'delete-user',
+            'store-artisan',
+            'store-cart',
+            'show-cart',
+            'edit-cart',
+            'delete-cart',
+            'show-orders',
+            'store-order',
+        ]);
     }
 }
