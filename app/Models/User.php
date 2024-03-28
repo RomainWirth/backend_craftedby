@@ -57,13 +57,6 @@ class User extends Authenticatable
     public function address(): HasOne {
         return $this->hasOne(Address::class);
     }
-//    public function roles(): BelongsToMany {
-//        return $this->belongsToMany(Role::class);
-//    }
-
-    public function permissions(): BelongsToMany {
-        return $this->belongsToMany(Permission::class);
-    }
 
     public function artisan(): HasOne {
         return $this->hasOne(Artisan::class);

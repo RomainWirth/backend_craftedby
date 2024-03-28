@@ -7,6 +7,9 @@ use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
 use App\Http\Resources\AddressResource;
 use App\Models\Address;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class AddressController extends Controller
 {
@@ -20,7 +23,7 @@ class AddressController extends Controller
      *      @SWG\Response(response=400, description="Invalid request")
      *  )
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): ResourceCollection
     {
         return AddressResource::collection(Address::all());
     }
@@ -36,24 +39,49 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Address $address): Address
+    public function show(Address $address): JsonResponse
     {
-        return $address;
+        return response()->json(['address' => $address], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAddressRequest $request, Address $address): void
+    public function update(StoreAddressRequest $request, User $user): JsonResponse
     {
-        $address->update($request->all());
+        $this->authorize('update', [$request, $user]);
+
+        $validatedData = $request->validated();
+//        $address->update($request->all());
+        $address = Address::find('user_id' === $user->id);
+        if($address->exists()) {
+            $address->street = is_null($validatedData['street']) ? $address->street : $validatedData['street'];
+            $address->postalCode = is_null($validatedData['postalCode']) ? $address->postalCode : $validatedData['postalCode'];
+            $address->city = is_null($validatedData['city']) ? $address->city : $validatedData['city'];
+            $address->countryCode = is_null($validatedData['countryCode']) ? $address->countryCode : $validatedData['countryCode'];
+            $address->save();
+
+            return response()->json([
+                'address' => $address,
+                'message' => 'Address updated successfully'
+            ], 201);
+        }
+        return response()->json(['message' => 'address not found'], 404);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Address $address): void
+    public function destroy(User $user): JsonResponse
     {
-        $address->delete();
+        $address = Address::find('user_id' === $user->id);
+        if($address->exists()) {
+            $address->delete();
+
+            return response()->json([
+                'message' => 'Address removed successfully'
+            ], 201);
+        }
+        return response()->json(['message' => 'address not found'], 404);
     }
 }

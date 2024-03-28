@@ -15,7 +15,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role === 'admin';
+        return $user->hasRole(['admin', 'super-admin']);
     }
 
     /**
@@ -23,7 +23,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->id === $model->id || $user->hasPermissionTo('show users', 'api');
+        return $user->id === $model->id || $user->hasRole(['admin', 'super-admin']);
     }
 
     /**
@@ -39,7 +39,14 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->id === $model->id || $user->hasPermissionTo('edit users', 'api');
+        return $user->id === $model->id;
+    }
+    /**
+     * Determine whether the user can update the model has role.
+     */
+    public function updateRole(User $user): bool
+    {
+        return $user->hasRole('super-admin');
     }
 
     /**
@@ -47,22 +54,22 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->hasPermissionTo('delete users', 'api');
+        return $user->id === $model->id || $user->hasRole(['user', 'admin', 'super-admin']);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $user): bool
     {
-        return $user->role === 'admin';
+        return $user->hasRole(['super-admin', 'admin']);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $user): bool
     {
-        return $user->role === 'admin';
+        return $user->hasRole(['super-admin']);
     }
 }

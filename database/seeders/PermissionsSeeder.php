@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 
-class SpatieSeeder extends Seeder
+class PermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,13 +21,13 @@ class SpatieSeeder extends Seeder
 
         // create permissions
         $permissions = [
+            'show-specific-user',
             'show-users',
             'edit-user',
             'delete-user',
             'store-artisan',
             'edit-artisan',
             'delete-artisan',
-//            'toggle-artisan',
             'store-specialty',
             'edit-specialty',
             'delete-specialty',
@@ -43,13 +43,20 @@ class SpatieSeeder extends Seeder
             'store-size',
             'edit-size',
             'delete-size',
+            'store-material',
+            'edit-material',
+            'delete-material',
             'store-cart',
             'show-cart',
             'edit-cart',
             'delete-cart',
             'show-orders',
             'store-order',
-            'change-role'
+            'change-role',
+            'show-themes',
+            'create-theme',
+            'edit-theme',
+            'delete-theme'
         ];
 
         foreach ($permissions as $permission) {

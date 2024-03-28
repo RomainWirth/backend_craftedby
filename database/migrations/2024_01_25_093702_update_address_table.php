@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('addresses', function (Blueprint $table) {
-            $table->foreignUuid('user_id');
+            $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

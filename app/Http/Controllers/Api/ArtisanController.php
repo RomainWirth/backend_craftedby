@@ -49,6 +49,8 @@ class ArtisanController extends Controller
                 $artisan->specialties()->attach($specialty);
             }
 
+            $user->assignRole('artisan');
+
             return response()->json($artisan, 201);
         }
         return response()->json(['message' => 'Artisan already exists.'], 409); // 409 Conflict
@@ -59,25 +61,28 @@ class ArtisanController extends Controller
      */
     public function show(Artisan $artisan): JsonResponse
     {
-        return response()->json($artisan);
+        return response()->json(['artisan' => $artisan], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtisanRequest $request, Artisan $artisan): JsonResponse
+    public function update(UpdateArtisanRequest $request, User $user): JsonResponse
     {
+        $this->authorize('update', $user);
         $validatedData = $request->validated();
         $artisan->update($validatedData);
 
-        return response()->json($artisan);
+        return response()->json(['artisan' => $artisan]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artisan $artisan): JsonResponse
+    public function destroy(User $user): JsonResponse
     {
+        $this->authorize('delete', $user);
+        $artisan = Artisan::find('user_id' === $user->id);
         $artisan->delete();
         return response()->json(['message' => 'Artisan deleted with success !'], 201);
     }

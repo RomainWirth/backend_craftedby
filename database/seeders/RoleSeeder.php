@@ -19,12 +19,9 @@ class RoleSeeder extends Seeder
 
         $admin = Role::create(['name' => 'admin']);
         $artisan = Role::create(['name' => 'artisan']);
-        $customer = Role::create(['name' => 'user']);
+        $user = Role::create(['name' => 'user']);
 
         $admin->givePermissionTo([
-            'show-users',
-            'edit-user',
-            'delete-user',
             'store-specialty',
             'edit-specialty',
             'delete-specialty',
@@ -37,32 +34,22 @@ class RoleSeeder extends Seeder
             'store-size',
             'edit-size',
             'delete-size',
-            'change-role',
-            'store-cart',
-            'show-cart',
-            'edit-cart',
-            'delete-cart',
-            'show-orders',
-            'store-order',
+            'store-material',
+            'edit-material',
+            'delete-material',
         ]);
 
         $artisan->givePermissionTo([
-            'edit-user',
-            'delete-user',
             'edit-artisan',
             'delete-artisan',
             'store-item',
             'edit-item',
             'delete-item',
-            'store-cart',
-            'show-cart',
-            'edit-cart',
-            'delete-cart',
-            'show-orders',
-            'store-order',
+            'show-themes',
         ]);
 
-        $customer->givePermissionTo([
+        $user->givePermissionTo([
+            'show-specific-user',
             'edit-user',
             'delete-user',
             'store-artisan',
@@ -71,6 +58,7 @@ class RoleSeeder extends Seeder
             'edit-cart',
             'delete-cart',
             'show-orders',
+            'store-order',
             'store-order',
         ]);
     }

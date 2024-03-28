@@ -31,13 +31,14 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::group(['middleware'=>'auth:sanctum'], function () {
+    Route::post('/logout', [UserController::class, 'logout']);
+
 //    Route::apiResource('user', UserController::class);
     Route::prefix('/users')->group(function() {
         Route::get('/', [UserController::class, 'index']); // Show all users : for role admin
         Route::get('/{id}', [UserController::class, 'show']); // Show current user
         Route::put('/{id}', [UserController::class, 'update']); // Update current user
         Route::delete('/{id}', [UserController::class, 'destroy']); // Delete current user
-        Route::post('/logout', [UserController::class, 'logout']);
     });
 
     Route::get('/address', [AddressController::class, 'index']);
@@ -115,7 +116,7 @@ Route::group(['middleware'=>'auth:sanctum'], function () {
 });
 
 Route::controller(UserController::class)->group(function(){
-    Route::post('/register', 'store');
+    Route::post('/register', 'register');
     Route::post('/login', 'login')->name('login');
 });
 

@@ -7,6 +7,8 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Address;
+use App\Models\PersonalAccessToken;
+use App\Models\Role;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -27,30 +29,10 @@ class UserController extends Controller
      *      @OA\Response(response=400, description="Invalid request")
      *  )
      */
-    public function index(): ResourceCollection
+    public function index(User $user): ResourceCollection
     {
-        $this->authorize('viewAny', User::class);
+        $this->authorize('viewAny', $user);
         return UserResource::collection(User::all());
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @OA\Post(
-     *       path="/users",
-     *       summary="Store a new user",
-     *       tags={"Users"},
-     *       @OA\Response(response=201, description="Successful operation"),
-     *       @OA\Response(response=409, description="User already exists")
-     *   )
-     */
-    public function store(StoreUserRequest $request): JsonResponse
-    {
-        $requestData = $request->all();
-
-        $user = User::create($requestData);
-        $addressData = $request->input('address');
-        $user->address()->create($addressData);
-        return response()->json($user, 201);
     }
 
      /**
@@ -66,17 +48,13 @@ class UserController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $this->authorize('view', User::class);
+        $user = User::find($id);
 
-        $existingUser = User::find($id)->first();
-        if($existingUser->exists()) {
-            $user = new UserResource($existingUser);
-            return response()->json($user);
-        } else {
-            return response()->json([
-                "message" => "User not found"
-            ], 404);
-        }
+        $this->authorize('view', $user);
+
+        $user = new UserResource($user);
+
+        return response()->json(['user' => $user], 200);
     }
 
     /**
@@ -90,18 +68,16 @@ class UserController extends Controller
      *        @OA\Response(response=404, description="User not found")
      *    )
      */
-    public function update(UpdateUserRequest $request, $id): JsonResponse
+    public function update(Request $request, string $id): JsonResponse
     {
-        $this->authorize('edit', User::class);
-
-        $validatedData = $request->validated();
+        $user = User::find($id);
+        $this->authorize('update', $user);
+        $dataToUpdate = $request->user;
         if(User::where('id', $id)->exists()) {
-            $user = User::find($id);
-            $user->firstname = is_null($validatedData['firstname']) ? $user->firstname : $validatedData['firstname'];
-            $user->lastname = is_null($validatedData['lastname']) ? $user->lastname : $validatedData['lastname'];
-            $user->birthdate = is_null($validatedData['birthdate']) ? $user->birthdate : $validatedData['birthdate'];
-            $user->password = is_null($validatedData['password']) ? $user->password : $validatedData['password'];
-            //! add fields
+            $user->firstname = is_null($dataToUpdate['firstname']) ? $user->firstname : $dataToUpdate['firstname'];
+            $user->lastname = is_null($dataToUpdate['lastname']) ? $user->lastname : $dataToUpdate['lastname'];
+            $user->birthdate = is_null($dataToUpdate['birthdate']) ? $user->birthdate : $dataToUpdate['birthdate'];
+
             $user->save();
             return response()->json([
                 'user' => $user,
@@ -127,8 +103,9 @@ class UserController extends Controller
      */
     public function destroy($id): JsonResponse
     {
-        $this->authorize('delete', User::class);
         $user = User::find($id);
+        $this->authorize('delete', $user);
+
         if ($user->exists()) {
             $user->delete();
             return response()->json([
@@ -136,6 +113,40 @@ class UserController extends Controller
             ], 201);
         }
         return response()->json(['message' => 'user not found'], 404);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @OA\Post(
+     *       path="/users",
+     *       summary="Store a new user",
+     *       tags={"Users"},
+     *       @OA\Response(response=201, description="Successful operation"),
+     *       @OA\Response(response=409, description="User already exists")
+     *   )
+     */
+    public function register(StoreUserRequest $request): JsonResponse
+    {
+        $requestData = $request->all();
+        $existingUser = User::where('email', $requestData['email'])->first();
+        if(!is_null($existingUser)) {
+            return response()->json(['message' => 'User already registered'], 403);
+        };
+        $user = User::create($requestData);
+        $addressData = $request->input('address');
+        $user->address()->create($addressData);
+        $user->assignRole('user');
+        $role = Role::where('name', 'user')->first();
+
+        $token = $user->createToken('Personal Access Token')->plainTextToken;
+
+        return response()->json([
+            'token_type' => 'Bearer',
+            'accessToken' => $token,
+            'user' => $user,
+            'role' => $role->name,
+            'message' => 'Register successful',
+        ], 201);
     }
 
     /**
@@ -150,46 +161,48 @@ class UserController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-//        dd($credentials);
+
+        $email = $credentials['email'];
+        $user = User::where('email', $email)->first();
+        if(is_null($user)) {
+            return response()->json([
+                'message' => 'User does not exists'
+            ], 404);
+        }
+
         if (!Auth::attempt($credentials)){
             return response()->json([
                 'message' => 'Invalid credentials'
             ],401);
         }
 
-        $email = $credentials['email'];
-//        dd($email);
-        $user = User::where('email', $email)->first();
-//        $user = Auth::user();
-//        dd($user);
-        $user = new UserResource($user);
-//        dd($user);
+        $existingToken = PersonalAccessToken::where('tokenable_id', $user->id);
+        if($existingToken->exists()) {
+            return response()->json([
+                'message' => 'User already logged in'
+            ], 403);
+        }
 
-        $tokenResult = $user->createToken('Personal Access Token');
-//        dd($tokenResult);
-        $token = $tokenResult->plainTextToken;
-//        dd($token);
+        $user = new UserResource($user);
+
+        $token = $user->createToken('Personal Access Token')->plainTextToken;
 
         return response()->json([
-            'accessToken' => $token,
             'token_type' => 'Bearer',
+            'accessToken' => $token,
             'user' => $user,
             'message' => 'Login successful',
         ], 200);
-
-
-
     }
 
     /**
      * Logout user (Revoke the token)
      *
-     * @param Request $request
      * @return JsonResponse [string] message
      */
-    public function logout(Request $request): JsonResponse
+    public function logout(): JsonResponse
     {
-        $request->user()->tokens()->delete();
+        auth()->user()->tokens()->delete();
 
         return response()->json([
             'message' => 'Successfully logged out'
