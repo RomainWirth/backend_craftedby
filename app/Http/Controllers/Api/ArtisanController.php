@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArtisanRequest;
-use App\Http\Requests\UpdateArtisanRequest;
+use Illuminate\Http\Request;
 use App\Http\Resources\ArtisanResource;
 use App\Models\Artisan;
 use App\Models\Specialty;
@@ -12,6 +12,7 @@ use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class ArtisanController extends Controller
 {
@@ -24,14 +25,34 @@ class ArtisanController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show($id): JsonResponse
+    {
+        $existingArtisan = Artisan::where('id', $id)->first();
+        if(is_null($existingArtisan)) {
+            return Response()->json([
+                'message' => 'Artisan does not exist'
+            ], 404);
+        }
+        $artisan = new ArtisanResource($existingArtisan);
+        return response()->json([
+            'artisan' => $artisan
+        ], 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreArtisanRequest $request): JsonResponse
     {
+//        dd($request);
+        $this->authorize('create', Artisan::class);
         $validatedData = $request->validated();
         $existingArtisan = Artisan::where('siret', $validatedData['siret'])->first();
-        if (empty($existingArtisan)) {
-            $user = User::where('id', $validatedData['user_id'])->first();
+        if (is_null($existingArtisan)) {
+            $user = Auth::user();
+//            dd($user);
             $theme = Theme::where('name', $validatedData['theme'])->first();
 
             $artisan = new Artisan();
@@ -53,25 +74,37 @@ class ArtisanController extends Controller
 
             return response()->json($artisan, 201);
         }
-        return response()->json(['message' => 'Artisan already exists.'], 409); // 409 Conflict
+        return response()->json([
+            'message' => 'Artisan already exists.'
+        ], 409); // 409 Conflict
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Artisan $artisan): JsonResponse
-    {
-        return response()->json(['artisan' => $artisan], 200);
-    }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtisanRequest $request, User $user): JsonResponse
+    public function update(Request $request, $id): JsonResponse
     {
-        $this->authorize('update', $user);
-        $validatedData = $request->validated();
-        $artisan->update($validatedData);
+        $artisan = Artisan::where('id', $id)->first();
+        $this->authorize('update', $artisan);
+
+//        dd($request);
+        $artisan->companyName = is_null($request['companyName']) ? $artisan->companyName : $request['companyName'];
+        $artisan->about = is_null($request['about']) ? $artisan->about : $request['about'];
+        $artisan->craftingDescription = is_null($request['craftingDescription']) ? $artisan->craftingDescription : $request['craftingDescription'];
+        $artisan->siret = is_null($request['siret']) ? $artisan->siret : $request['siret'];
+
+        $specialties = $request->specialty;
+        foreach ($specialties as $spec) {
+            $specialty = Specialty::where('name', $spec)->first();
+            $artisan->specialties()->attach($specialty);
+        }
+
+        $artisan->theme = is_null($request['theme']) ? $artisan->theme : $request['theme'];
+        $theme = Theme::where('name', $artisan->theme)->first();
+//        dd($theme);
+        $artisan->theme()->associate($theme->id);
 
         return response()->json(['artisan' => $artisan]);
     }
@@ -79,10 +112,11 @@ class ArtisanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user): JsonResponse
+    public function destroy(User $user, $id): JsonResponse
     {
-        $this->authorize('delete', $user);
-        $artisan = Artisan::find('user_id' === $user->id);
+        $artisan = Artisan::where('id', $id)->first();
+//        dd($artisan);
+        $this->authorize('delete', $artisan);
         $artisan->delete();
         return response()->json(['message' => 'Artisan deleted with success !'], 201);
     }

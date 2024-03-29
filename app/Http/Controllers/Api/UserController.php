@@ -70,15 +70,32 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id): JsonResponse
     {
+//        dd($request);
         $user = User::find($id);
         $this->authorize('update', $user);
         $dataToUpdate = $request->user;
+//        dd($dataToUpdate);
+        $address = Address::where('user_id', $id)->first();
+//        dd($address);
+        $addressToUpdate = $dataToUpdate['address'];
+//        dd($addressToUpdate);
+
         if(User::where('id', $id)->exists()) {
             $user->firstname = is_null($dataToUpdate['firstname']) ? $user->firstname : $dataToUpdate['firstname'];
             $user->lastname = is_null($dataToUpdate['lastname']) ? $user->lastname : $dataToUpdate['lastname'];
             $user->birthdate = is_null($dataToUpdate['birthdate']) ? $user->birthdate : $dataToUpdate['birthdate'];
 
+            if($address->exists()) {
+                $address->street = is_null($addressToUpdate['street']) ? $address->street : $addressToUpdate['street'];
+                $address->postalCode = is_null($addressToUpdate['postalCode']) ? $address->postalCode : $addressToUpdate['postalCode'];
+                $address->city = is_null($addressToUpdate['city']) ? $address->city : $addressToUpdate['city'];
+                $address->countryCode = is_null($addressToUpdate['countryCode']) ? $address->countryCode : $addressToUpdate['countryCode'];
+            }
+
+            $user->address()->save($address);
             $user->save();
+
+            $user = new UserResource($user);
             return response()->json([
                 'user' => $user,
                 "message" => "User updated successfully"

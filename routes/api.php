@@ -50,14 +50,14 @@ Route::group(['middleware'=>'auth:sanctum'], function () {
 //    });
 
 //    Route::apiResource('artisans', ArtisanController::class);
-    Route::prefix('artisans')->group(function() {
+    Route::prefix('/artisans')->group(function() {
         Route::post('/', [ArtisanController::class, 'store']); // Store new artisan
         Route::put('/{artisan}', [ArtisanController::class, 'update']); // Update current artisan, need user_id match
         Route::delete('/{artisan}', [ArtisanController::class, 'destroy']); // Delete current artisan, need user_id match
     });
 
     //Route::apiResource('items', ItemController::class);
-    Route::prefix('items')->group(function() {
+    Route::prefix('/items')->group(function() {
 //        Route::get('/', [ItemController::class, 'index']); // all items
 //        Route::get('/{item}', [ItemController::class, 'show']); // one specific item
 //        Route::get('/{userId}', [ItemController::class, 'showUserItems']); // show current item with from specific user
@@ -67,7 +67,7 @@ Route::group(['middleware'=>'auth:sanctum'], function () {
     });
 
 //    Route::apiResource('carts', CartController::class);
-    Route::prefix('carts')->group(function() {
+    Route::prefix('/carts')->group(function() {
         Route::get('/', [CartController::class, 'index']); // for role admin
         Route::get('/{cart}', [CartController::class, 'show']);
         Route::post('/', [CartController::class, 'store']); // To save current cart
@@ -77,37 +77,32 @@ Route::group(['middleware'=>'auth:sanctum'], function () {
 
     /* Admins */
 //    Route::apiResource('themes', ThemeController::class);
-    Route::prefix('themes')->group(function() {
-        // only artisans & admins
+    Route::prefix('/themes')->group(function() {
         Route::get('/', [ThemeController::class, 'index']);
-        // only admins :
-        Route::post('/', [ThemeController::class, 'store']);
-        Route::put('/{theme}', [ThemeController::class, 'update']);
-        Route::delete('/{theme}', [ThemeController::class, 'destroy']);
+        Route::get('/{id}', [ThemeController::class, 'show']);
     });
 //    Route::apiResource('specialties', SpecialtyController::class);
-    Route::prefix('specialties')->group(function() {
-//        Route::get('/', [SpecialtyController::class, 'index']);
+    Route::prefix('/specialties')->group(function() {
         Route::post('/', [SpecialtyController::class, 'store']);
-        Route::put('/{specialty}', [SpecialtyController::class, 'update']);
-        Route::delete('/{specialty}', [SpecialtyController::class, 'destroy']);
+        Route::put('/{id}', [SpecialtyController::class, 'update']);
+        Route::delete('/{id}', [SpecialtyController::class, 'destroy']);
     });
 //    Route::apiResource('categories', CategoryController::class);
-    Route::prefix('categories')->group(function() {
+    Route::prefix('/categories')->group(function() {
 //        Route::get('/', [CategoryController::class, 'index']); // get all categories
         Route::post('/', [CategoryController::class, 'store']); // create new category
         Route::put('/{category}', [CategoryController::class, 'update']);
         Route::delete('/{category}', [CategoryController::class, 'destroy']);
     });
 //    Route::apiResource('sizes', SizeController::class);
-    Route::prefix('sizes')->group(function() {
+    Route::prefix('/sizes')->group(function() {
 //        Route::get('/', [SizeController::class, 'index']); // get all categories
         Route::post('/', [SizeController::class, 'store']); // create new category
         Route::put('/{size}', [SizeController::class, 'update']);
         Route::delete('/{size}', [SizeController::class, 'destroy']);
     });
 //    Route::apiResource('colors', ColorController::class);
-    Route::prefix('colors')->group(function() {
+    Route::prefix('/colors')->group(function() {
 //        Route::get('/', [ColorController::class, 'index']); // get all categories
         Route::post('/', [ColorController::class, 'store']); // create new category
         Route::put('/{color}', [ColorController::class, 'update']);
@@ -120,25 +115,26 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/login', 'login')->name('login');
 });
 
-Route::prefix('artisans')->group(function() {
+Route::prefix('/artisans')->group(function() {
     Route::get('/', [ArtisanController::class, 'index']); // Show all artisans
     Route::get('/{artisan}', [ArtisanController::class, 'show']); // Show current artisan
 });
-Route::prefix('items')->group(function() {
+Route::prefix('/items')->group(function() {
     Route::get('/', [ItemController::class, 'index']); // all items
     Route::get('/{item}', [ItemController::class, 'show']); // one specific item
     Route::get('/{artisanId}', [ItemController::class, 'showArtisanItems']); // show current item with from specific user
 });
-Route::prefix('specialties')->group(function() {
+Route::prefix('/specialties')->group(function() {
     Route::get('/', [SpecialtyController::class, 'index']);
+    Route::get('/{id}', [SpecialtyController::class, 'show']);
 });
-Route::prefix('categories')->group(function() {
+Route::prefix('/categories')->group(function() {
     Route::get('/', [CategoryController::class, 'index']); // get all categories
 });
-Route::prefix('sizes')->group(function() {
+Route::prefix('/sizes')->group(function() {
     Route::get('/', [SizeController::class, 'index']); // get all categories
 });
-Route::prefix('colors')->group(function() {
+Route::prefix('/colors')->group(function() {
     Route::get('/', [ColorController::class, 'index']); // get all categories
 });
 

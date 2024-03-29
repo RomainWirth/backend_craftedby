@@ -4,16 +4,18 @@ namespace App\Policies;
 
 use App\Models\Specialty;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
 class SpecialtyPolicy
 {
+    use HandlesAuthorization;
     /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('store-specialty', 'web');
+        return $user->hasPermissionTo('store-specialty');
     }
 
     /**

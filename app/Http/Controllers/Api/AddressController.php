@@ -47,26 +47,26 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreAddressRequest $request, User $user): JsonResponse
+    public function update(UpdateAddressRequest $request, User $user)/*: JsonResponse*/
     {
-        $this->authorize('update', [$request, $user]);
-
-        $validatedData = $request->validated();
-//        $address->update($request->all());
-        $address = Address::find('user_id' === $user->id);
-        if($address->exists()) {
-            $address->street = is_null($validatedData['street']) ? $address->street : $validatedData['street'];
-            $address->postalCode = is_null($validatedData['postalCode']) ? $address->postalCode : $validatedData['postalCode'];
-            $address->city = is_null($validatedData['city']) ? $address->city : $validatedData['city'];
-            $address->countryCode = is_null($validatedData['countryCode']) ? $address->countryCode : $validatedData['countryCode'];
-            $address->save();
-
-            return response()->json([
-                'address' => $address,
-                'message' => 'Address updated successfully'
-            ], 201);
-        }
-        return response()->json(['message' => 'address not found'], 404);
+//        $this->authorize('update', [$request, $user]);
+//
+//        $validatedData = $request->validated();
+////        $address->update($request->all());
+//        $address = Address::find('user_id' === $user->id);
+//        if($address->exists()) {
+//            $address->street = is_null($validatedData['street']) ? $address->street : $validatedData['street'];
+//            $address->postalCode = is_null($validatedData['postalCode']) ? $address->postalCode : $validatedData['postalCode'];
+//            $address->city = is_null($validatedData['city']) ? $address->city : $validatedData['city'];
+//            $address->countryCode = is_null($validatedData['countryCode']) ? $address->countryCode : $validatedData['countryCode'];
+//            $address->save();
+//
+//            return response()->json([
+//                'address' => $address,
+//                'message' => 'Address updated successfully'
+//            ], 201);
+//        }
+//        return response()->json(['message' => 'address not found'], 404);
     }
 
     /**
