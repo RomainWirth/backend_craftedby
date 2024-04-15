@@ -11,7 +11,7 @@ class StoreCartRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,21 @@ class StoreCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required|string|max:255',
+            'paymentStatus' => 'required|boolean|false',
+        ];
+    }
+
+    public function message(): array
+    {
+        return [
+            'user_id.required' => 'user id is required',
+            'user_id.string' => 'user_id must be a string',
+            'user_id.max' => 'user_id cannot exceed 255 characters',
+
+            'paymentStatus.required' => 'payment status is required',
+            'paymentStatus.boolean' => 'payment status only accept true or false',
+            'paymentStatus.false' => 'payment status is false by default',
         ];
     }
 }

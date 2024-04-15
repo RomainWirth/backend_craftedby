@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cart_item', function (Blueprint $table) {
-            $table->id();
+            $table->foreignUuid('cart_id')->references('id')->on('carts')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('quantity');
+            $table->foreignUuid('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

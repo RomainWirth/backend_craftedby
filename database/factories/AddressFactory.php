@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,13 @@ class AddressFactory extends Factory
      */
     public function definition(): array
     {
+        $userId = User::all()->random(1)->value('id');
         return [
-            //
+            'street' => fake()->address(),
+            'postalCode' => fake()->postcode(),
+            'city' => fake()->city(),
+            'countryCode' => fake()->countryCode(),
+            'user_id' => $userId,
         ];
     }
 }

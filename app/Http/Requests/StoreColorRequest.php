@@ -11,7 +11,7 @@ class StoreColorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class StoreColorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+        ];
+    }
+    public function message(): array
+    {
+        return [
+            'name.required' => 'Color name is required',
+            'name.string' => 'Color name must be string',
+            'name.max' => 'Color name must not exceed 255 characters'
         ];
     }
 }

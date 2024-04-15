@@ -13,7 +13,7 @@ class CartPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasRole(['admin', 'super-admin']);
     }
 
     /**
@@ -21,7 +21,7 @@ class CartPolicy
      */
     public function view(User $user, Cart $cart): bool
     {
-        //
+        return $user->id === $cart->user_id || $user->hasRole(['admin', 'super-admin']);
     }
 
     /**
@@ -29,7 +29,7 @@ class CartPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasPermissionTo('store-cart', 'web');
     }
 
     /**
@@ -37,7 +37,7 @@ class CartPolicy
      */
     public function update(User $user, Cart $cart): bool
     {
-        //
+        return $user->id === $cart->user_id;
     }
 
     /**
@@ -45,22 +45,22 @@ class CartPolicy
      */
     public function delete(User $user, Cart $cart): bool
     {
-        //
+        return $user->id === $cart->user_id;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Cart $cart): bool
-    {
-        //
-    }
+//    /**
+//     * Determine whether the user can restore the model.
+//     */
+//    public function restore(User $user, Cart $cart): bool
+//    {
+//        //
+//    }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
     public function forceDelete(User $user, Cart $cart): bool
     {
-        //
+        return $user->hasRole(['super-admin']);
     }
 }

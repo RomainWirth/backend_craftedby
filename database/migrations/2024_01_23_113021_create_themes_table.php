@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('themes', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->enum('name', ['default', 'theme1', 'theme2'])->unique()->default('default');
             $table->timestamps();
         });
     }

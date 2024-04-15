@@ -11,7 +11,7 @@ class StoreSpecialtyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class StoreSpecialtyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+        ];
+    }
+
+    Public function message(): array
+    {
+        return [
+            'name.string' => 'You need to add a name for the specialty.',
+            'name.required' => 'Field required.',
         ];
     }
 }

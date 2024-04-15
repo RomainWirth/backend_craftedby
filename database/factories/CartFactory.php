@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,10 @@ class CartFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::all()->random(1)->value('id');
         return [
-            //
+            'paymentStatus' => fake()->boolean(),
+            'user_id' => $user
         ];
     }
 }

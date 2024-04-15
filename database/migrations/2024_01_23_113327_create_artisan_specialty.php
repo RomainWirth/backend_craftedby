@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('artisan_specialty', function (Blueprint $table) {
-            $table->id();
+            $table->foreignUuid('artisan_id')->references('id')->on('artisans')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignUuid('specialty_id')->references('id')->on('specialties')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,23 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'totalPrice' => 'required|integer',
+            'sendStatus' => 'required|boolean|false',
+            'cart_id' => 'required'
+        ];
+    }
+
+    public function message(): array
+    {
+        return [
+            'totalPrice.required' => 'total price is required',
+            'totalPrice.integer' => 'total price must be a number',
+
+            'sendStatus.required' => 'send status is required',
+            'sendStatus.boolean' => 'send status only accept true or false',
+            'sendStatus.false' => 'send status is false by default',
+
+            'cart_id.required' => 'cart id is required',
         ];
     }
 }
