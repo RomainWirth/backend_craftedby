@@ -121,7 +121,7 @@ Route::prefix('/artisans')->group(function() {
 });
 Route::prefix('/items')->group(function() {
     Route::get('/', [ItemController::class, 'index']); // all items
-    Route::get('/{item}', [ItemController::class, 'show']); // one specific item
+    Route::get('/{id}', [ItemController::class, 'show']); // one specific item
     Route::get('/{artisanId}', [ItemController::class, 'showArtisanItems']); // show current item with from specific user
 });
 Route::prefix('/specialties')->group(function() {

@@ -89,9 +89,16 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Item $item): JsonResponse
+    public function show(string $id): JsonResponse
     {
-        return response()->json($item);
+        $existingItem = Item::where('id', $id)->first();
+        if(is_null($existingItem)) {
+            return Response()->json([
+                'message' => 'Item does not exist'
+            ], 404);
+        }
+        $item = new ItemResource($existingItem);
+        return response()->json(['item' => $item], 200);
     }
 
     /**
