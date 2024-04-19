@@ -23,6 +23,6 @@ class Specialty extends Model
     protected $table = 'specialties';
 
     public function artisan(): BelongsToMany {
-        return $this->belongsToMany(Artisan::class);
+        return $this->belongsToMany(Artisan::class)->withPivot('artisan_id');
     }
 }

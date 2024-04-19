@@ -24,10 +24,10 @@ class ArtisanResource extends JsonResource
             'about' => $this->about,
             'craftingDescription' => $this->craftingDescription,
             'siret' => $this->siret,
-            'specialty' => $this->specialties,
+            'specialties' => SpecialtyResource::collection($this->specialties),
             'theme' => new ThemeResource($this->theme),
             'user' => new UserResource($this->user),
-            'items' => $this->items
+            'items' => ItemResource::collection($this->items)
         ];
     }
 }

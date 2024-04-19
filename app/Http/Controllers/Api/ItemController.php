@@ -48,34 +48,28 @@ class ItemController extends Controller
             $item->stock = $validatedData['stock'];
 
             $category = Category::where('name', $validatedData['category'])->first();
-//            dd($category);
             if (!empty($category)) {
                 $item->category()->associate($category);
             }
 
             $size = Size::where('name', $validatedData['size'])->first();
-//            dd($size);
             if (!empty($size)) {
                 $item->size()->associate($size);
             }
 
             $color = Color::where('name', $validatedData['color'])->first();
-//            dd($color);
             if (!empty($color)) {
                 $item->color()->associate($color);
             }
 
             $artisan_id = Artisan::where('id', $validatedData['artisan_id'])->first();
-//            dd($artisan_id);
             if (!empty($artisan_id)) {
                 $item->artisan()->associate($artisan_id);
             }
-//            dd($item);
+
             $item->save();
-//            dd($item);
 
             $materials = $validatedData['materials'];
-//            dd($materials);
             foreach ($materials as $mat) {
                 $material = Material::where('name', $mat)->first();
                 $item->materials()->attach($material);
@@ -99,6 +93,34 @@ class ItemController extends Controller
         }
         $item = new ItemResource($existingItem);
         return response()->json(['item' => $item], 200);
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function showArtisanItems(string $artisanId): JsonResponse
+    {
+        $existingItems = Item::where('artisan_id', $artisanId)->get();
+        if(is_null($existingItems)) {
+            return Response()->json([
+                'message' => 'Item does not exist'
+            ], 404);
+        }
+        $items = ItemResource::collection($existingItems->all());
+        return response()->json(['item' => $items], 200);
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function showCategoryItems(string $categoryId): JsonResponse
+    {
+        $existingItems = Item::where('category_id', $categoryId)->get();
+        if(is_null($existingItems)) {
+            return Response()->json([
+                'message' => 'Item does not exist'
+            ], 404);
+        }
+        $items = ItemResource::collection($existingItems->all());
+        return response()->json(['item' => $items], 200);
     }
 
     /**

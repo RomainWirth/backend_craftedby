@@ -41,7 +41,7 @@ class Artisan extends Model
     }
 
     public function specialties(): BelongsToMany {
-        return $this->belongsToMany(Specialty::class);
+        return $this->belongsToMany(Specialty::class)->withPivot('specialty_id');
     }
 
     public function items(): HasMany {
