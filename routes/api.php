@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\SpecialtyController;
 use App\Http\Controllers\Api\ThemeController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Auth\LoginRegisterController;
+//use App\Http\Controllers\Auth\LoginRegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,10 +25,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
 
 Route::group(['middleware'=>'auth:sanctum'], function () {
     Route::post('/logout', [UserController::class, 'logout']);
@@ -117,12 +113,13 @@ Route::controller(UserController::class)->group(function(){
 
 Route::prefix('/artisans')->group(function() {
     Route::get('/', [ArtisanController::class, 'index']); // Show all artisans
-    Route::get('/{artisan}', [ArtisanController::class, 'show']); // Show current artisan
+    Route::get('/{id}', [ArtisanController::class, 'show']); // Show current artisan
 });
 Route::prefix('/items')->group(function() {
     Route::get('/', [ItemController::class, 'index']); // all items
-    Route::get('/{item}', [ItemController::class, 'show']); // one specific item
-    Route::get('/{artisanId}', [ItemController::class, 'showArtisanItems']); // show current item with from specific user
+    Route::get('/{id}', [ItemController::class, 'show']); // one specific item
+    Route::get('/artisan/{artisanId}', [ItemController::class, 'showArtisanItems']); // show current item with from specific user
+    Route::get('/category/{categoryId}', [ItemController::class, 'showCategoryItems']); // show items from a category
 });
 Route::prefix('/specialties')->group(function() {
     Route::get('/', [SpecialtyController::class, 'index']);
@@ -137,8 +134,6 @@ Route::prefix('/sizes')->group(function() {
 Route::prefix('/colors')->group(function() {
     Route::get('/', [ColorController::class, 'index']); // get all categories
 });
-
-
 
 //Route::post('register', [UserController::class, 'store']);
 //Route::post('login', [UserController::class, 'login']);
